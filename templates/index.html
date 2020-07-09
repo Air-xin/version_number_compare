@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>版本号比较</title>
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+    <style>
+        body{
+            background-color: blanchedalmond;
+        }
+        #element_1{
+            padding: 80px 30%;
+        }
+        span{
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <span>
+        <h4>需求：</h4>
+        比较两个版本号 version1 和 version2。<br>
+如果 version1 > version2 返回 1，如果 version1 < version2 返回 -1， 除此之外返回 0。<br>
+你可以假设版本字符串非空，并且只包含数字和 . 字符。<br>
+ . 字符不代表小数点，而是用于分隔数字序列。<br>
+例如，2.5 不是“两个半”，而是第二版中的第五个小版本。<br>
+你可以假设版本号的每一级的默认修订版号为 0。例如，版本号 3.4 的第一级（大版本）和第二级（小版本）修订号分别为 3 和 4。其第三级和第四级修订号均为 0。<br>
+<br>
+示例 1:<br>
+输入: version1 = "0.1", version2 = "1.1"<br>
+输出: -1<br>
+示例 2:<br>
+输入: version1 = "1.0.1", version2 = "1"<br>
+输出: 1<br>
+示例 3:<br>
+输入: version1 = "7.5.2.4", version2 = "7.5.3"<br>
+输出: -1<br>
+示例 4：<br>
+输入：version1 = "1.01", version2 = "1.001"<br>
+输出：0<br>
+解释：忽略前导零，“01” 和 “001” 表示相同的数字 “1”。<br>
+示例 5：<br>
+输入：version1 = "1.0", version2 = "1.0.0"<br>
+输出：0<br>
+解释：version1 没有第三级修订号，这意味着它的第三级修订号默认为 “0”。<br>
+<br>
+提示：<br>
+版本字符串由以点 （.） 分隔的数字字符串组成。这个数字字符串可能有前导零。<br>
+版本字符串不以点开始或结束，并且其中不会有两个连续的点。<br>
+    </span>
+    <div id="element_1">
+        version1：<input type="text" id="version_num1"><br><br>
+        version2：<input type="text" id="version_num2"><br><br>
+        <button id="btn">比较</button>
+    </div>
+
+    <script>
+        $(function(){
+            var version_num1 = $('#version_num1')
+            var version_num2 = $('#version_num2')
+            var btn = $('#btn')
+            btn.click(function(){
+                var num1 = version_num1.val()
+                var num2 = version_num2.val()
+                if(!num1 | !num2){
+                    alert('不能为空')
+                }else{
+                    $.ajax({
+                        url:'v1/version_compare',
+                        type:'post',
+                        contentType:'',
+                        data:JSON.stringify({'num1':num1,'num2':num2}),
+                        success:function(res){
+                            if(res.code == 200){
+                                alert(res.msg)
+                            }else{
+                                alert(res.error)
+                            }
+                        }
+                    })
+                }
+            })
+        })
+    </script>
+</body>
+</html>
